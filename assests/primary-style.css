@@ -4,29 +4,61 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
-    color: white;
+    border: 1px 
 }
 
 body{
-    background-color:tan;
+	font-family: sans-serif;
+    background-color:#eee;
     overflow: hidden;
 }
 
 p{
-    color: white;
+    color: #222;
+	margin: 20px 0;
 }
 
 button{
     outline: none;
+    background-color: white;
+    color: black;
+	padding: 1rem;
+	min-width: 200px;
+	border-radius: 100px;
+	margin: 20px 0;
+	cursor: pointer;
+	border: 2px black solid;
+	font-size: 1rem;
+}
+button:hover {
+	 color: white;
+	 background-color: black;
+}
+button.answer{
+    outline: none;
     background-color: black;
-    color: white;
+    color: white !important;
+	padding: 1rem;
+	min-width: 100%;
+	border-radius: 0;
+	margin: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 1rem;
+}
+button.answer.correct {
+	 background-color: green;
+}
+button.answer.incorrect {
+	 background-color: red;
+}
+h1, h2{
+    color: black;
+    text-align: center;
+	margin: 20px 0;
 }
 
-h1, h2{
-    color: yellow;
-    text-align: center;
-}
+
 
 /* outer container*/
 
@@ -47,7 +79,7 @@ float: right;
 
 /* inner-container*/
 .inner-container{
-    background: rgba(0, 0, 0, 0.5);
+   
     height: 100%;
     width: 50%;
     margin: 0 auto;
@@ -59,24 +91,54 @@ float: right;
 
 
 /*header/quiz intro*/
-.quiz-intro{
-    margin-top: 25vh;
+.quiz-intro, main{
+    margin-left: 10px;
+    margin-right: 10px;
+    
+}
+ul {
+	padding: 0;
+	list-style: none;
+}
+li {
+	text-align: center;
+}
+.card {
+    display: flex;
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px #ccc solid;
+    min-height: 500px;
+    justify-content: center;
+    align-items: center;
 }
 
-.quiz-intro p {
+.quiz-intro, p, .quiz-outro, p {
     text-align: center;
 }
 
-.quiz-intro button {
+.quiz-intro button,
+.quiz-outro button{
     display: block;
     margin: 0 auto;
 }
+.hide {
+	display: none;
+}
+.quiz-outro,
+.questions {
+	display: none;
+}
 
-
-
+.questions.active {
+	display: block;
+}
 
 /* main quiz */
 
+main {
+    display: none;
+}
 
 
 

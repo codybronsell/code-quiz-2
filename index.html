@@ -1,38 +1,55 @@
-
-
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Web Quiz</title>
-        <meta name="veiwport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./assests/primary-style.css">
-    </head>
-    <body>
-        <!--main outter div-->
-        <div class="outer-container">
-            <!--top-bar section-->
-            <div class="top-bar">
-                <button>veiw highscore</button>
-                <p>timer: 00:00</p>
-            </div>
-
-            <!--inner div-->
-            <div class="inner-container">
-                <!--main header/intro-->
-                <header class="quiz-intro">
-                    <h1>welcome to the quiz</h1>
-                    <p>get started with quiz</p>
-                    <button>start quiz</button>
-
-                </header>
-                <!--main quiz-->
-                <main>
-
-                </main>
-
-            </div>
-
-        </div>
-    </body>
+<head>
+<title>Web Quiz</title>
+<meta name="veiwport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./assests/primary-style.css">
+<script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+<!--main outter div-->
+<div class="outer-container"> 
+  <!--top-bar section-->
+  <div class="top-bar">
+    <button class="score">veiw highscore</button>
+	  <p><span id="timer">75</span> seconds</p>
+  </div>
+  <!--inner div-->
+    <div class="inner-container">
+		<div class="card">
+      <div class="quiz-intro">
+        <section class="question-screen">
+          <h1>welcome to the quiz</h1>
+          <p>get started with quiz</p>
+          <button id="startQuizBtn">start quiz</button>
+        </section>
+      </div>
+      <div class="questions">
+        <section class="question-screen">
+          <h2 class="question-title">Loading...</h2>
+          <ul class="answers">
+            <li>Loading...</li>
+            <li>Loading...</li>
+            <li>Loading...</li>
+            <li>Loading...</li>
+          </ul>
+        </section>
+      </div>
+	   <div class="quiz-outro">
+        <section class="question-screen">
+          <h1>Finished!</h1>
+			<p>Your Score is: <div class="score"></div></p>
+          <button id="startQuizOverBtn">Try Again</button>
+        </section>
+      </div>
+    </div>
+	</div>
+</div>
+<script
+  src="./assests/script.js"></script>
+</body>
 </html>
