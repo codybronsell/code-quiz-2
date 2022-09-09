@@ -15,8 +15,8 @@
 <div class="outer-container"> 
   <!--top-bar section-->
   <div class="top-bar">
-    <button class="score">veiw highscore</button>
-	  <p><span id="timer">75</span> seconds</p>
+	  <button>Current High Score <span class="hs">0</span> <span class="player"></span></button>
+	  <p><span id="timer">50</span> seconds</p>
   </div>
   <!--inner div-->
     <div class="inner-container">
@@ -43,6 +43,14 @@
         <section class="question-screen">
           <h1>Finished!</h1>
 			<p>Your Score is: <div class="score"></div></p>
+		   <div class="savehs">
+			  
+			   <h3>New High Score</h3>
+			    <img src="./assests/img/fw.gif" alt="fireworks" />
+			   <p>insert your itnitals</p> 
+            <input class="form-text" type="text" id="name" name="name" required
+                   minlength="4" maxlength="8" size="10">
+			   <button id="saveQuizBtn">Save Score</button></div>
           <button id="startQuizOverBtn">Try Again</button>
         </section>
       </div>

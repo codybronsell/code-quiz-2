@@ -1,42 +1,75 @@
 $=jQuery;
+
+
+
 var CODYQUIZ = {};
 CODYQUIZ.Global = {
 	score: 0,
-	startTime: 75,
-	currentTime: 75,
+	startTime: 50,
+	currentTime: 50,
 	questions: [],
 	currentQuestion: 0,
 	currentCorrect:'',
 	totalQestions: 0,
-	timer:{}
+	timer:{},
+	currentHS:0,
+	currentHSPlayer: ''
 }
 CODYQUIZ.UI = {
 	start: '.quiz-intro',
 	end: '.quiz-outro',
+	savehs: '.savehs',
 	container: '.questions',
 	title: '.question-title',
 	answers: '.answers',
-	loadingMessage: 'Loadin...',
+	loadingMessage: 'Loading...',
 }
 CODYQUIZ.Data = {
 	questions: [{"id":538,"question":"Choose the correct HTML tag for the smallest size heading?","description":null,"answers":{"answer_a":"<heading>","answer_b":"<head>","answer_c":"<h1>","answer_d":"<h6>","answer_e":null,"answer_f":null},"multiple_correct_answers":"false","correct_answers":{"answer_a_correct":"false","answer_b_correct":"false","answer_c_correct":"false","answer_d_correct":"true","answer_e_correct":"false","answer_f_correct":"false"},"correct_answer":"answer_a","explanation":null,"tip":null,"tags":[{"name":"HTML"}],"category":"Code","difficulty":"Easy"},{"id":505,"question":"Which of the following is an attribute of the <Table> tag?","description":null,"answers":{"answer_a":"SRC","answer_b":"BOLD","answer_c":"CELLPADDING","answer_d":"LINK","answer_e":null,"answer_f":null},"multiple_correct_answers":"false","correct_answers":{"answer_a_correct":"false","answer_b_correct":"false","answer_c_correct":"true","answer_d_correct":"false","answer_e_correct":"false","answer_f_correct":"false"},"correct_answer":"answer_a","explanation":null,"tip":null,"tags":[{"name":"HTML"}],"category":"Code","difficulty":"Easy"},{"id":468,"question":"All elements are identified by their __________ and are marked up using either start tags and end tags or self-closing tags","description":null,"answers":{"answer_a":"Attribute Names","answer_b":"Tag Names","answer_c":"Class Names","answer_d":"None of the mentioned","answer_e":null,"answer_f":null},"multiple_correct_answers":"false","correct_answers":{"answer_a_correct":"false","answer_b_correct":"true","answer_c_correct":"false","answer_d_correct":"false","answer_e_correct":"false","answer_f_correct":"false"},"correct_answer":"answer_a","explanation":null,"tip":null,"tags":[{"name":"HTML"}],"category":"Code","difficulty":"Easy"},{"id":503,"question":"Which tag allows you to add a row in a table?","description":null,"answers":{"answer_a":"<td> and <\/td>","answer_b":"<tr> and <\/tr>","answer_c":"<th> and <\/th>","answer_d":"<cr> and <\/cr>","answer_e":null,"answer_f":null},"multiple_correct_answers":"false","correct_answers":{"answer_a_correct":"false","answer_b_correct":"true","answer_c_correct":"false","answer_d_correct":"false","answer_e_correct":"false","answer_f_correct":"false"},"correct_answer":"answer_a","explanation":null,"tip":null,"tags":[{"name":"HTML"}],"category":"Code","difficulty":"Easy"},{"id":452,"question":"Which Is not a property of attribute behaviour of <Marquee> Tag?","description":null,"answers":{"answer_a":"Blur","answer_b":"Slide","answer_c":"Alternate","answer_d":"Scroll","answer_e":null,"answer_f":null},"multiple_correct_answers":"false","correct_answers":{"answer_a_correct":"false","answer_b_correct":"false","answer_c_correct":"true","answer_d_correct":"false","answer_e_correct":"false","answer_f_correct":"false"},"correct_answer":"answer_a","explanation":null,"tip":null,"tags":[{"name":"HTML"}],"category":"Code","difficulty":"Easy"}],
 	answersKeys: ["answer_a","answer_b","answer_c","answer_d","answer_e","answer_f"],
 }
+
+
+   
+
 CODYQUIZ.Events = {
 	init: function(){
 		CODYQUIZ.Global.questions = CODYQUIZ.Data.questions;
 		CODYQUIZ.Global.totalQestions = CODYQUIZ.Global.questions.length;
+		if(localStorage.getItem('hs')){
+			CODYQUIZ.Global.currentHS = localStorage.getItem('hs');
+			CODYQUIZ.Global.currentHSPlayer = localStorage.getItem('player');
+		}
+		
+		
+		$('.hs').text(CODYQUIZ.Global.currentHS);
+		$('.player').text(CODYQUIZ.Global.currentHSPlayer);
 		$('#startQuizBtn').on('click', function(){
 			console.info('start clicked');
 			CODYQUIZ.Events.start();
+		});
+		$('#saveQuizBtn').on('click', function(){
+			var ini = $('#name').val();
+			if(!ini){
+				alert('Please enter your Initials');
+				return;
+			}
+			localStorage.setItem('player',ini);
+			localStorage.setItem('hs',CODYQUIZ.Global.score);
+			CODYQUIZ.Global.currentHS = CODYQUIZ.Global.score;
+			CODYQUIZ.Global.currentHSPlayer = ini;
+			$('.hs').text(CODYQUIZ.Global.currentHS);
+			$('.player').text(CODYQUIZ.Global.currentHSPlayer);
+			$(CODYQUIZ.UI.savehs).hide();
+			
 		});
 		$('#startQuizOverBtn').on('click', function(){
 			console.info('start clicked');
 			CODYQUIZ.Global.currentQuestion=0;
 			CODYQUIZ.Global.score=0;
 			$('.score').text(0);
-			$('#timer').html(75);
-			
+			$('#timer').html(50);
+			$('.score').removeClass('ishs');
 			CODYQUIZ.Events.start();
 		});
 	},
@@ -51,6 +84,10 @@ CODYQUIZ.Events = {
       		$('#timer').html(CODYQUIZ.Global.currentTime - 1);
     	} else {
       		clearInterval(CODYQUIZ.Global.timer);
+              $(CODYQUIZ.UI.end).show();
+              //SET SCORE
+              $(CODYQUIZ.UI.container).hide();
+
     	}
   }, 1000);
 	},
@@ -95,7 +132,7 @@ CODYQUIZ.Events = {
 			//add local storage
 		}else{
 			$('#timer').html(parseInt($('#timer').html())-10);
-		  $btn.addClass('incorrect');
+		  	$btn.addClass('incorrect');
 		}
 		
 		setTimeout(function(){
@@ -103,10 +140,15 @@ CODYQUIZ.Events = {
 				CODYQUIZ.Global.currentQuestion++;
 		   		CODYQUIZ.Events.loadQuestion();
 			}else{
-				$(CODYQUIZ.UI.end).show();
+				clearInterval(CODYQUIZ.Global.timer);
 				//SET SCORE
-				
 				$(CODYQUIZ.UI.container).hide();
+                if(CODYQUIZ.Global.score > CODYQUIZ.Global.currentHS){
+					$('.score').addClass('ishs');
+					$(CODYQUIZ.UI.savehs).show();
+				}
+				
+				$(CODYQUIZ.UI.end).show();
 			}
 		}, 1000);
 		
